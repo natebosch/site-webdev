@@ -64,3 +64,10 @@ deploy:
       repo: dart-lang/site-webdev
       branch: master
       condition: $CI_TASK == build*
+  - provider: script
+    script: ./scripts/deploy/firebase.sh dev2
+    skip_cleanup: true
+    on:
+      repo: dart-lang/site-webdev
+      branch: testing
+      condition: $CI_TASK == build*

@@ -1,0 +1,248 @@
+---
+layout: angular
+title: Component Testing (DRAFT)
+description: Techniques and practices for component testing of Angular apps.
+sideNavGroup: advanced
+prevpage:
+  title: Testing
+  url: /angular/guide/testing
+nextpage:
+  title: End-to-end Testing
+  url: /angular/guide/testing/e2e
+---
+//- FilePath: src/angular/guide/testing.jade
+include ../_util-fns
+
+.l-main-section
+:marked
+  Testing is an essential part of software development.
+  This page shows how to use the **[angular_test][]** package to perform
+  **[component/subsystem testing][testing]**.
+
+  To track the state of all documentation on testing Dart web apps,
+  subscribe to notifications on [issue #195](https://github.com/dart-lang/site-webdev/issues/195).
+
+  [angular_test]: https://pub.dartlang.org/packages/angular_test
+  [testing]: https://en.wikipedia.org/wiki/Software_testing#Component_interface_testing
+
+//- E2E: a form of in-browser system testing.
+  https://en.wikipedia.org/wiki/Software_testing#System_testing
+
+//- TODO: derice the test code from quickstart instead ...?
+- var _example = 'toh-0';
+:marked
+  ## Starter app tests
+
+  The [tutorial](../tutorial)'s [starter app](/angular/tutorial/toh-pt0)
+  includes a few basic tests for `AppComponent` in the following test file:
+
++makeExcerpt('test/app_test.dart (excerpt)', 'initial')
+
+:marked
+  If you've used modern testing frameworks, then you'll recognize
+  elements such as the [test fixture][], setup, and teardown functions.
+
+  [test fixture]: https://github.com/junit-team/junit4/wiki/test-fixtures
+
+  The file contains a test named "Default greeting" that checks whether
+  the app component template generates the text "Hello Angular".
+
++makeExcerpt('test/app_test.dart', 'default-test', '')
+
+:marked
+  As you'd guess from the file imports, the test file depends on the
+  [test][] and [angular_test][] packages. Because these packages are used
+  only during development, and not shipped with the app, they don't belong
+  under `dependencies` in the pubspec. Instead, `test` and `angular_test`
+  are under **`dev_dependencies`**:
+
+  [test]: https://pub.dartlang.org/packages/test
+  [angular_test]: https://pub.dartlang.org/packages/angular_test
+
++makeExcerpt('pubspec.yaml (dev_dependencies)')
+
+:marked
+  The `pubspec.yaml` file also includes
+  the `reflection_remover` and `pub_serve` transformers.
+  Without these, `angular_test`-based tests won't run.
+
+//- TODO: add highlights of the key region once highlighting works again:
+    https://github.com/dart-lang/site-webdev/issues/374
++makeExcerpt('pubspec.yaml (transformers)')
+
+//-.l-sub-section
+  :marked
+    The `angular_test` package currently only supports the testing of
+    [ahead-of-time (AOT)][aot] compiled apps.
+
+    [aot]: /angular/glossary#aot
+  
+:marked
+  To run tests, open a terminal, and from the project root issue the following
+  command:
+
+code-example(language="sh" class="code-shell").
+  pub run angular_test
+
+:marked
+  The test framework runs code transformers, launches [pub serve][], loads
+  the test file, and runs tests:
+
+  [pub serve]: /angular/guide/setup#running-the-app
+
+code-example(format="nocode" class="code-shell").
+  The pub serve output is at .../angular_test_pub_serve_output.log
+  Finished AoT compilation. Running tests...
+  00:00 +0: loading test/app_test.dart
+  00:01 +0: loading test/app_test.dart
+  00:02 +0: loading test/app_test.dart
+  00:03 +0: loading test/app_test.dart
+  00:03 +0: test/app_test.dart: Default greeting
+  00:03 +1: test/app_test.dart: Default greeting
+  00:03 +1: test/app_test.dart: Greet world
+  00:03 +2: test/app_test.dart: Greet world
+  00:03 +2: test/app_test.dart: Greet world HTML
+  00:03 +3: test/app_test.dart: Greet world HTML
+  00:03 +3: All tests passed!
+
+:marked
+  You've already seen the code for the "Default greeting" test.
+  Here's the code for the "Greet world" and "Greet world HTML" tests:
+
++makeExcerpt('test/app_test.dart', 'more-tests', '')
+
+:marked
+  The "Greet world" test interacts with the test fixture by setting the app
+  component's `name` property to "World", expecting the infamous greeting as a
+  result.
+
+  The "Greet world HTML" test uses the fixture's `rootElement` to get the
+  native DOM element generated from the component's template. It uses the DOM
+  element to check that the app component generates the expected HTML.
+
+- var _example = 'toh-1';
+:marked
+  ## Test the Hero Editor using page objects
+
+  In this section you'll write tests for the [tutorial](../tutorial)'s [Hero
+  Editor](../tutorial/toh-pt1).
+  As components and their templates become more complex, you'll want to
+  [separate concerns][] and isolate testing code from the detailed HTML
+  encoding of page elements in templates.
+
+  You can achieve this separation by creating **[page object][]** (PO) classes
+  having APIs written in terms of _application-specific concepts_, such as
+  "title", "hero id", and "hero name".
+
+  A PO class encapsulates details about:
+
+  - HTML element access, for example, whether a hero name is contained in a
+    heading element or a `<div>`
+  - Type transformations, for example, from `String` to `int`, as you need to
+    do for a hero id
+
+  ### Hero Editor template
+
+  Before proceeding, you might want to review the [final code][] of the
+  [tutorial part 1](../tutorial/toh-pt1), taking note of the app component
+  template:
+
+  [final code]: ../tutorial/toh-pt1#the-road-youve-travelled
+  [page object]: https://martinfowler.com/bliki/PageObject.html
+  [separate concerns]: https://en.wikipedia.org/wiki/Separation_of_concerns
+
++makeExcerpt('lib/app_component.dart (template)')
+
+:marked
+  ### _AppPO_ page object class
+
+  For this simple version of the app, you'll use a single page object for the
+  entire app.  You could test the in-page title using the page object as
+  follows:
+
++makeExcerpt('test/app_test.dart (title)')
+
+:marked
+  Replace all tests in the test file with this new test, and import
+  `dart:async` and `package:pageloader/objects.dart`.
+  
+  The [pageloader][] package allows you to declaratively identify HTML
+  template elements, letting the package bind PO class fields to the
+  corresponding DOM elements at runtime. An initial version of `AppPO`
+  might look like this:
+
+  [pageloader]: https://pub.dartlang.org/packages/pageloader
+
++makeExcerpt('test/app_test.dart (AppPO-initial)')
+
+:marked
+  At runtime, the `_h1` field will be bound to the app component [template's
+  `<h1>` element](#libapp_componentdart-template). The PO `title` field
+  returns the heading element's text.
+  
+  Access to page elements is **asynchronous**, which is why `title` is of type
+  [Future][], and the "title" test is marked as `async`.
+  
+  [Future]: {{site.dart_api}}/dart-async/Future-class.html
+
+  Add an `appPO` declaration to the `main` test function, and initialize it
+  from the fixture in the `setUp()` method:
+
++makeExcerpt('test/app_test.dart (appPO-setup)')
+
+:marked
+  ### Test initial hero properties
+
+  When the app loads, it displays data for a hero named _Windstorm_ having id
+  one. Add a test for that:
+
++makeExcerpt('test/app_test.dart (hero)')
+
+:marked
+  Looking at the app component's [template](#libapp_componentdart-template)
+  you can see that the corresponding page object fields could be defined like
+  this:
+
++makeExcerpt('test/app_test.dart (AppPO-hero)')
+
+:marked
+  You're extracting the id from text that follows the "id:" label in
+  the first `<div>`, and the hero name from the `<h2>` text, dropping the
+  "details!" suffix.
+
+  ### Hero name update test
+
+  You'll need to interact with the fixture's app component instance to test
+  changing the hero's name. Use the `NgTestFixture.update()` method for
+  this. The type of the update method's argument is `AppComponent`; this
+  corresponds to the generic parameter type used in the declaration of
+  `fixture`.
+
++makeExcerpt('test/app_test.dart (update-name)')
+
+:marked
+  Enhance the app page object class so that it accesses the template's
+  `<input>` element. Then define a `type()` method by delegation to the bound
+  input element:
+
++makeExcerpt('test/app_test.dart (AppPO-input)')
+
+:marked
+  In this section you wrote tests to declaratively access page elements
+  using annotations like `@ByTagName()` from the [pageloader][] package.
+  You also wrote your first test that interacted with the test fixture
+  component.
+
+  [pageloader]: https://pub.dartlang.org/packages/pageloader
+
+  Here is the entire test file:
+
+//- I might be inclined to link to the full test file in the angular_example repo.
++makeExample('test/app_test.dart')
+
+//- The title is a placeholder and will be changed to reflect the testing
+    concepts that are introduced.
+:marked
+  ## Testing the Tour of Heroes, Part 2
+
+  _To be continued..._

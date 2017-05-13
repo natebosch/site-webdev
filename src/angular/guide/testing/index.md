@@ -16,5 +16,5 @@ nextpage:
 
 
 Subpages:
-- [Component testing](component)
-- [End-to-end testing](e2e)
+- [Component testing](testing/component)
+- [End-to-end testing](testing/e2e)

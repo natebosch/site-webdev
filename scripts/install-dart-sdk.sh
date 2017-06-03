@@ -12,7 +12,7 @@ if  [[ -z "$(type -t dart)" ]]; then
     # https://storage.googleapis.com/dart-archive/channels/stable/release/latest/sdk/dartsdk-linux-x64-release.zip
     # https://storage.googleapis.com/dart-archive/channels/stable/release/latest/dartium/dartium-macos-x64-release.zip
 
-    CHANNEL=stable # vs. dev
+    CHANNEL=dev # vs. stable
     DART_ARCHIVE=https://storage.googleapis.com/dart-archive/channels
     VERS=$CHANNEL/release/latest
     # VERS=$CHANNEL/release/1.23.0 # If necessary, pin a specific version like this

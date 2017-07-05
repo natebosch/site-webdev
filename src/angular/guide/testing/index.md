@@ -1,7 +1,7 @@
 ---
 layout: angular
 title: Testing (DRAFT)
-description: Techniques and practices for testing Angular apps.
+description: Techniques and practices for testing AngularDart apps.
 sideNavGroup: advanced
 prevpage:
   title: Structural Directives
@@ -10,11 +10,15 @@ nextpage:
   title: Component Testing
   url: /angular/guide/testing/component
 ---
-[Main testing page **placeholder**. Tentative/temporary text is in brackets, like this.]
+This _how-to_ guide covers topics relevant to testing AngularDart apps.
+Topics are organized by [kind of testing][].
 
-[Refer to the [different kinds of testing](https://www.dartlang.org/guides/testing) from the main Dart testing page]
+**Component testing**:
 
+{% include_relative component/_toc.md %}
 
-Subpages:
-- [Component testing](testing/component)
-- [End-to-end testing](testing/e2e)
+**End-to-end testing**:
+
+{% include_relative e2e/_toc.md %}
+
+[kind of testing]: https://www.dartlang.org/guides/testing#kinds-of-testing

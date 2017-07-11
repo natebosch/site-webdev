@@ -82,4 +82,4 @@ Please tell us about any issues you find:
 * For **documentation and example** issues, use the
   [site-webdev issue tracker](https://github.com/dart-lang/site-webdev/issues).
 * To report issues with **AngularDart** itself, use the
-  [angular2 issue tracker](https://github.com/dart-lang/angular2/issues).
+  [angular2 issue tracker](https://github.com/dart-lang/angular/issues).

@@ -12,7 +12,7 @@ module.exports = function (gulp, plugins, config) {
   function path2GeneratedAPI(p) {
     return plugins.path.resolve(config.repoPath[p], config.relDartDocApiDir);
   }
-  const ngContentAstIndexRelPath = 'angular2.compiler/NgContentAst/index.html';
+  const ngContentAstIndexRelPath = 'angular.compiler/NgContentAst/index.html';
 
   // Copy (and patch) API docs to ${destPath(p)} for each project p specified via --dartdoc
   gulp.task('finalize-api-docs', config.dartdocProj.map(p => `finalize-api-docs-${p}`));
@@ -46,7 +46,7 @@ module.exports = function (gulp, plugins, config) {
     const baseDir = path2GeneratedAPI(p);
     return gulp.src([
       `${baseDir}/angular_components/**/*.html`,
-      `${baseDir}/angular2*/**/*.html`,
+      `${baseDir}/angular*/**/*.html`,
       `!${baseDir}/${ngContentAstIndexRelPath}`,
     ], { base: baseDir })
       // Adjust hrefs to doc pages; https://github.com/dart-lang/site-webdev/issues/273
@@ -55,7 +55,7 @@ module.exports = function (gulp, plugins, config) {
       // We could use something like cheerio but a simple in-place search/replace is good enough.
 
       // 2017-04-14: these transformations are temporary until all relative links
-      // are eliminated from the angular2 and angular_components API docs:
+      // are eliminated from the angular and angular_components API docs:
       .pipe(plugins.replace(/(href=")docs\//g, `$1/angular/`)) // ${webdevDirName[p]}
       .pipe(plugins.replace(/(href=")examples\//g, `$1${urlToExamples}`))
       .pipe(gulp.dest(destPath(p)));

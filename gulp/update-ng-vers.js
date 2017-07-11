@@ -32,13 +32,13 @@ module.exports = function (gulp, plugins, config) {
   const NG_TEST_VERS = `^${process.env.NG_TEST_RELEASE}`;
 
   const depOvr = 'dependency_overrides:\n' +
-    '  angular2:\n' +
-    '    git: https://github.com/dart-lang/angular2.git\n';
+    '  angular:\n' +
+    '    git: https://github.com/dart-lang/angular.git\n';
   const depOvr2 = 'git:\n' +
-    '      url: https://github.com/dart-lang/angular2.git\n' +
+    '      url: https://github.com/dart-lang/angular.git\n' +
     '      ref: 3.0.0-alpha+1\n';
   const depOvr3 = 'dependency_overrides:\n' +
-    `  angular2:\n    ${depOvr2}\n`;
+    `  angular:\n    ${depOvr2}\n`;
 
   gulp.task('update-ng-vers', [
     '_update-acx-vers', '_update-ng-vers',
@@ -51,7 +51,7 @@ module.exports = function (gulp, plugins, config) {
       `${baseDir}/**/pubspec.yaml`,
       `!${baseDir}/**/.pub/**`,
     ]) // , { base: baseDir }
-      .pipe(replace(/(^\s+angular2?_components:) \S+$/m, `$1 ${ACX_VERS}`))
+      .pipe(replace(/(^\s+angular?_components:) \S+$/m, `$1 ${ACX_VERS}`))
       .pipe(gulp.dest(baseDir));
   });
 
@@ -61,7 +61,7 @@ module.exports = function (gulp, plugins, config) {
       `${baseDir}/**/pubspec.yaml`,
       `!${baseDir}/**/.pub/**`,
     ]) // , { base: baseDir }
-      .pipe(replace(/(^\s+angular2:) \S+$/m, `$1 ${NG_VERS}`))
+      .pipe(replace(/(^\s+angular:) \S+$/m, `$1 ${NG_VERS}`))
       .pipe(replace(/(^\s+angular_test:) \S+$/m, `$1 ${NG_TEST_VERS}`))
       .pipe(gulp.dest(baseDir));
   });
@@ -82,7 +82,7 @@ module.exports = function (gulp, plugins, config) {
       `${baseDir}/**/pubspec.yaml`,
       `!${baseDir}/**/.pub/**`,
     ]) // , { base: baseDir }
-      .pipe(replace('git: https://github.com/dart-lang/angular2.git', `${depOvr2}`))
+      .pipe(replace('git: https://github.com/dart-lang/angular.git', `${depOvr2}`))
       .pipe(gulp.dest(baseDir));
   });
 
@@ -98,9 +98,9 @@ module.exports = function (gulp, plugins, config) {
 
   const platform_star = 
   `    platform_directives:
-    - 'package:angular2/common.dart#COMMON_DIRECTIVES'
+    - 'package:angular/common.dart#COMMON_DIRECTIVES'
     platform_pipes:
-    - 'package:angular2/common.dart#COMMON_PIPES'
+    - 'package:angular/common.dart#COMMON_PIPES'
 `;
 
   gulp.task('_remove_platform_entries', ['_update-acx-vers', '_update-ng-vers'], (cb) => {

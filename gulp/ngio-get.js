@@ -58,7 +58,7 @@ module.exports = function (gulp, plugins, config) {
     var apiPageEntryName = matches[i++];
     var apiEntryKind = matches[i++];
     var suffix = matches[i++];
-    return hrefPrefix + '/angular/api/angular2.' + libName + '/' + apiPageEntryName + '-class' + suffix;
+    return hrefPrefix + '/angular/api/angular.' + libName + '/' + apiPageEntryName + '-class' + suffix;
   }
 
   function ngioExPathForDart(match, path) {
@@ -377,7 +377,7 @@ module.exports = function (gulp, plugins, config) {
       // Patch security/e2e-spec.ts
       .pipe(replace(/(.toContain\('Template) alert\("0wned"\) (Syntax'\))/, '$1 $2', {skipBinary:true}))
       // Patch component-styles/e2e-spec.ts
-      // https://github.com/dart-lang/angular2/issues/39
+      // https://github.com/dart-lang/angular/issues/39
       .pipe(replace(/(it\('includes styles loaded with CSS @import')/, 'x$1', {skipBinary:true}))
       .pipe(gulp.dest(EXAMPLES_PATH));
   });

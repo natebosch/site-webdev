@@ -8,8 +8,8 @@ var cheatsheetPackage = require('../api-builder/cheatsheet-package');
 var PROJECT_PATH = path.resolve(__dirname, "../..");
 var PUBLIC_PATH = path.resolve(PROJECT_PATH, 'public');
 var DOCS_PATH = path.resolve(PUBLIC_PATH, 'docs');
-var ANGULAR_REPO_PATH = path.resolve(__dirname, '../../../angular-dart');
-// The 'docs' folder is actually named 'doc' for angular2 Dart.
+var ANGULAR_REPO_PATH = path.resolve(__dirname, '../../../angular');
+// The 'docs' folder is actually named 'doc' for angular Dart.
 var ANGULAR_DOCS_PATH = path.resolve(ANGULAR_REPO_PATH, 'doc');
 var NG_IO_PKG_PATH = path.resolve(__dirname, "../api-builder/angular.io-package");
 
@@ -41,7 +41,7 @@ module.exports = new Package('dart-api-and-cheatsheet-builder', [basePackage, ta
   .config(function (readFilesProcessor) {
     // confirm that the angular repo is actually there.
     if (!fs.existsSync(ANGULAR_REPO_PATH)) {
-      throw new Error('dart-api-and-cheatsheet-builder task requires the angular2 repo to be at ' + ANGULAR_REPO_PATH);
+      throw new Error('dart-api-and-cheatsheet-builder task requires the angular repo to be at ' + ANGULAR_REPO_PATH);
     }
     readFilesProcessor.basePath = DOCS_PATH;
     readFilesProcessor.sourceFiles = [{

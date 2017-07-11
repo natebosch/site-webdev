@@ -8,7 +8,7 @@ var path = require('canonical-path');
  * @return {Object} The package information
  */
 module.exports = function packageInfo() {
-  const ngPath = '../angular-dart';
+  const ngPath = '../angular';
   const angularPubspec = path.join(ngPath, 'pubspec.yaml');
   const pubspec = fs.readFileSync(angularPubspec, 'UTF-8').split('\n');
 

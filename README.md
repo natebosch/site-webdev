@@ -18,8 +18,7 @@ www.dartlang.org (which is implemented in [github.com/dart-lang/site-www](https:
 1. `source ./scripts/env-set.sh`
 1. `./scripts/before-install.sh`
 1. `./scripts/get-ng-repo.sh` (only if the repos aren't already there).<br>
-   This step ensures that local angular-related repos are present as siblings to this repo;
-   and that `angular-dart` is an alias to `angular2`.
+   This step ensures that local angular-related repos are present as siblings to this repo.
 1. `./scripts/install.sh`
 
 Once everything's installed, you can build and serve:

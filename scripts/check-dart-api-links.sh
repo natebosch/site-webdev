@@ -37,7 +37,7 @@ grep -i broken $LOGFILE_FULL | grep -v Finished || true
 echo ""
 
 echo "Listing links to TS api pages from Dart docs pages, if any:"
-grep /api/ $LOGFILE_FULL | grep -v '/api/$' | grep -v /angular2. || true
+grep /api/ $LOGFILE_FULL | grep -v '/api/$' | grep -v /angular. || true
 echo ""
 
 echo "For details consult the full log $LOGFILE_FULL"

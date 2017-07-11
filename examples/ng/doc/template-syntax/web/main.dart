@@ -7,7 +7,7 @@ import 'package:template_syntax/app_component.dart';
 
 void main() {
   bootstrap(AppComponent,
-      // https://github.com/dart-lang/angular2/issues/277
+      // https://github.com/dart-lang/angular/issues/277
       [provide(ExceptionHandler, useClass: BrowserExceptionHandler)]);
 }
 

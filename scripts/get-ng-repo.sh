@@ -4,15 +4,16 @@ set -e -o pipefail
 
 [[ -z "$NGIO_ENV_DEFS" ]] && . ./scripts/env-set.sh
 
-if [[ -e "$NG2_REPO" ]]; then
-  echo Angular repo is already present at: $NG2_REPO
+if [[ -e "$NG_REPO" ]]; then
+  echo Angular repo is already present at: $NG_REPO
 else
   travis_fold start get_repos_ng
   echo GETTING Angular from GitHub ...
   set -x
-  git clone https://github.com/dart-lang/angular2.git $NG2_REPO
-  git -C $NG2_REPO fetch origin refs/tags/$NG_RELEASE
-  git -C $NG2_REPO checkout tags/$NG_RELEASE -b $NG_RELEASE
+  git clone https://github.com/dart-lang/angular.git $NG_REPO
+  # FIXME: temporary, until 3.2.0-alpha or later comes out: stay on HEAD
+  # git -C $NG_REPO fetch origin refs/tags/$NG_RELEASE
+  # git -C $NG_REPO checkout tags/$NG_RELEASE -b $NG_RELEASE
   set +x
   travis_fold end get_repos_ng
 fi
@@ -40,13 +41,6 @@ else
   (cd $CEU_REPO; pub get)
   set +x
   travis_fold end get_repos_ceu
-fi
-
-# Temporary until we eliminate use of NG2DART_REPO
-if [[ -e "$NG2DART_REPO" ]]; then
-  echo Angular repo alias is already present at: $NG2DART_REPO
-else
-  (set -x; ln -s ${NG2_REPO/..\//} $NG2DART_REPO)
 fi
 
 echo PWD `pwd`

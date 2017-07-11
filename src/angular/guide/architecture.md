@@ -104,8 +104,8 @@ The main Angular library is [angular2](/angular/api), which most application mod
 ```
 
 The angular2 package has other important libraries, such as
-[angular2.router](/angular/api/angular2.router/angular2.router-library) and
-[angular2.security](/angular/api/angular2.security/angular2.security-library).
+[angular2.router](/angular/api/angular.router/angular.router-library) and
+[angular2.security](/angular/api/angular.security/angular.security-library).
 
 <div class="l-hr"></div>
 

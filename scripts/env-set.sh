@@ -9,10 +9,8 @@ if [[ -z "$NGIO_ENV_DEFS" ]]; then
 
     : ${NGIO_REPO:=../angular.io}
     export NGIO_REPO
-    : ${NG2_REPO:=../angular2}
-    export NG2_REPO
-    # TODO: replace all occurrences of NG2DART_REPO by NG2_REPO
-    export NG2DART_REPO=../angular-dart
+    : ${NG_REPO:=../angular}
+    export NG_REPO
     : ${NGDOCEX:=examples/ng/doc}
     export NGDOCEX
     : ${ACX_REPO:=../angular_components}
@@ -22,7 +20,7 @@ if [[ -z "$NGIO_ENV_DEFS" ]]; then
 
     # Git tag names
     export NG_RELEASE=3.1.0
-    export NG_TEST_RELEASE=1.0.0-beta+2
+    export NG_TEST_RELEASE=1.0.0-beta+3
     export ACX_RELEASE=v0.5.2
 
     if [ ! $(type -t travis_fold) ]; then

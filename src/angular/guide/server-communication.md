@@ -102,7 +102,7 @@ are not transformed. To ensure that the `BrowserClient` identifier is available
 for DI, you must add a `resolved_identifiers` parameter to the `angular2`
 transformer in `pubspec.yaml`:
 
-[ng2dtri]: https://github.com/dart-lang/angular2/wiki/Transformer#resolved_identifiers
+[ng2dtri]: https://github.com/dart-lang/angular/wiki/Transformer#resolved_identifiers
 
 <!--stylePattern = { pnk: /(resolved_identifiers:|Browser.*)/gm, otl: /(- angular2:)|(transformers:)/g };-->
 <?code-excerpt "pubspec.yaml (transformers)" title?>

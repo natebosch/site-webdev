@@ -20,15 +20,15 @@ module.exports = function (gulp, plugins, config) {
     const dabInfo = dab.dartPkgConfigInfo;
     dabInfo.ngIoDartApiDocPath = path.join(config.THIS_PROJECT_PATH, 'src', 'angular', 'api'); // was: path.join(DOCS_PATH, 'dart', vers, 'api');
     dabInfo.ngDartDocPath = path.join(config.repoPath.ng, config.relDartDocApiDir);
-    // Exclude API entries for developer/internal libraries. Also exclude entries for
-    // the top-level catch all "angular2" library (otherwise every entry appears twice).
-    dabInfo.excludeLibRegExp = new RegExp(/^(?!angular2)|testing|_|codegen|^angular2$/);
+    // Exclude API entries from developer/internal libraries. Also exclude entries for
+    // the top-level catch all "angular" library (otherwise every entry appears twice).
+    dabInfo.excludeLibRegExp = new RegExp(/^(?!angular)|testing|_|codegen|^angular$/);
 
     try {
       // checkAngularProjectPath(ngPathFor('dart'));
       var destPath = dabInfo.ngIoDartApiDocPath;
       let filesAndFolders = plugins.fs.readdirSync(dabInfo.ngDartDocPath)
-        .filter(name => !name.match(/^(?!angular2)|testing|codegen/))
+        .filter(name => !name.match(/^(?!angular)|testing|codegen/))
         .map(name => path.join(dabInfo.ngDartDocPath, name));
       log.info(`Building Dart API list data for ${filesAndFolders.length} libraries`);
 
